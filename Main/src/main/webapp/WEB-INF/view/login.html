@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:include="head :: header">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">-->
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <div><a class="navbar-brand" href="index.html" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <form id="loginForm"  th:method="POST" class="form-signin"  role="form">
+
+        <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
+        <div class="form-group has-success has-feedback">
+            <!--  <th:block th:each="errer : ${#request.getAttribute('objectErrors')}">
+                  <th:block th:text="${errer.defaultMessage}"></th:block>
+              </th:block>-->
+            <input type="text" name="loginacct" class="form-control"  id="floginacct" onblur="loginacctCheck();" placeholder="请输入登录账号"   required autofocus>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <input type="password" name="userpswd" class="form-control" id="fuserpswd" onblur="userpswdCheck();"  placeholder="请输入登录密码"  required style="margin-top:10px;">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <select id="ftype" name="type" class="form-control" >
+                <option value="member">会员</option>
+                <option value="user">管理</option>
+            </select>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"  value="remember-me" > 记住我
+            </label>
+            <br>
+            <label>
+                忘记密码
+            </label>
+            <label style="float:right">
+                <a href="/classpather/sgin.htm?method=reg">我要注册</a>
+            </label>
+        </div>
+        <a class="btn btn-lg btn-success btn-block" id="btnLogin" onclick="btnLogin();" > 登录</a>
+    </form>
+</div>
+
+
+
+</body>
+<script th:replace="beanPath :: beanpath"></script>
+<th:block th:include="foot :: foot"></th:block>
+<script charset="gbk"  th:src="@{/static/login.js}"></script>
+<script type="text/javascript">
+    /*function btnLogin() {
+        $("#loginForm").submit();
+    }*/
+</script>
+</html>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gh.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.gh.pojo.extendes.UserVo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="loginacct" jdbcType="VARCHAR" property="loginacct"/>
+        <result column="userpswd" jdbcType="CHAR" property="userpswd"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="createtime" jdbcType="CHAR" property="createtime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, loginacct, userpswd, username, email, createtime
+  </sql>
+
+    <sql id="whereSql">
+        <if test="id !=null  ">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="loginacct !=null and loginacct !=''">
+            and loginacct like concat('%', #{loginacct,jdbcType=VARCHAR},"%")
+        </if>
+        <if test="userpswd !=null and userpswd !=''">
+            and userpswd like concat('%', #{userpswd,jdbcType=CHAR},"%")
+        </if>
+        <if test="username !=null and username !=''">
+            and username like concat('%', #{username,jdbcType=VARCHAR},"%")
+        </if>
+        <if test="email !=null and email !=''">
+            and email like concat('%',#{email,jdbcType=VARCHAR},"%")
+        </if>
+        <if test="createtime !=null">
+            and createtime like concat('%',#{createtime,jdbcType=CHAR},"%")
+        </if>
+        order by createtime desc
+    </sql>
+
+    <!--登录查询语句-->
+    <select id="findUser" parameterType="com.gh.pojo.extendes.UserVo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user
+        where loginacct=#{loginacct} AND userpswd=#{userpswd}
+    </select>
+
+    <!--根据id查询用户-->
+    <select id="findUserEdit" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="cont" resultType="java.lang.Long">
+        SELECT count(*) FROM t_user
+        where 1=1
+        <include refid="whereSql"/>
+    </select>
+    <select id="findForPageUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user
+        where 1=1
+        <include refid="whereSql"/>
+
+    </select>
+    <insert id="saveUser" parameterType="com.gh.pojo.extendes.UserVo">
+       <!-- <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>-->
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+
+            <if test="loginacct != null">
+                loginacct,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="userpswd != null">
+                userpswd,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="loginacct != null">
+                #{loginacct,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userpswd != null">
+                #{userpswd,jdbcType=CHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <!--修改用户信息-->
+    <update id="editModfityUserByid" parameterType="com.gh.pojo.extendes.UserVo">
+        update t_user
+        <set>
+            <if test="loginacct != null">
+                loginacct =#{loginacct,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username= #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userpswd != null">
+                userpswd=#{userpswd,jdbcType=CHAR},
+            </if>
+            <if test="email != null">
+                email= #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime =#{createtime,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteUserById" parameterType="java.lang.Integer">
+        delete from t_user where id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>
