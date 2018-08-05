@@ -302,7 +302,7 @@ $("#Allcheckbox").click(function () {
     //获得当前复选框的状态 true /false
     var checkboxStatus = this.checked;
     //设置 当前 数据的所有复选框状态都为true 即选中状态
-    var allcheckbox = $("tbody tr td input[type=checkbox]").attr("checked", checkboxStatus);
+    var allcheckbox = $("tbody tr td input[type=checkbox]").prop("checked", checkboxStatus);
     console.log(allcheckbox);
 
     /* for (var i = 0;i<allcheckbox.length;i++){
