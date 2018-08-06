@@ -44,7 +44,7 @@ function queryPageUser() {
                     content += '  <td><input id="' + n.id + '" type="checkbox"></td>';
                     content += '  <td>' + n.name + '</td>';
                     content += '  <td>';
-                    content += '	  <button id="btn-success"  type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                    content += '	  <button id="btn-success"   type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                     content += '	  <button onclick="edit(' + n.id + ')" id="btn-primary" value="' + n.id + '" type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                     content += '	  <button onclick="deleterole(' + n.id + ',\'' + n.name + '\')" id="btn-danger" value="' + n.name + '" type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                     content += '  </td>';
@@ -250,4 +250,10 @@ function deleteRoleBach() {
 
         console.log(dataString);
     }
+}
+
+
+function edit(id) {
+
+    window.location.href = BASE_URL +"/role/edit.htm?id=" + id;
 }

@@ -1,10 +1,15 @@
 package com.gh.service;
 
 
+import com.gh.pojo.TRole;
+import com.gh.pojo.TUserRole;
 import com.gh.pojo.extendes.RoleVo;
+import com.gh.pojo.extendes.UserRoleVo;
+import com.gh.utils.Data;
 import com.gh.utils.PagingResult;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 public interface RoleService {
@@ -29,4 +34,12 @@ public interface RoleService {
     PagingResult<RoleVo> findForPageRole(int page, int rows,RoleVo roleVo) throws SQLException;
 
     Integer deleteRoleByIds(Integer[] id) throws SQLException;
+
+    List<RoleVo> findAllRole()throws SQLException;
+
+    List<Integer> findAllByRoleId(Integer id)throws SQLException;
+
+    boolean deleteUserRoleRelationship(Integer userid, Data data);
+
+    boolean saveUserRoleRelationship(Integer userid, Data data);
 }

@@ -178,7 +178,7 @@ function queryPageUser() {
                     content += '  <td>' + n.username + '</td>';
                     content += '  <td>' + n.email + '</td>';
                     content += '  <td>';
-                    content += '	  <button id="btn-success"  type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                    content += '	  <button id="btn-success" onclick="assignRole('+n.id+');"  type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                     content += '	  <button onclick="edit(' + n.id + ')" id="btn-primary" value="' + n.id + '" type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                     content += '	  <button onclick="deleteuser(' + n.id + ',\'' + n.username + '\')" id="btn-danger" value="' + n.username + '" type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                     content += '  </td>';
@@ -394,7 +394,7 @@ function deleteUserBach() {
 }
 
 $("#tbdoy .btn-success").click(function () {
-    window.location.href = "assignRole.html";
+
 });
 
 /*
@@ -402,3 +402,6 @@ $("#tbdoy .btn-success").click(function () {
 $("#btn-primary").click(function () {
 
 });*/
+function assignRole(id) {
+    window.location.href = "/user/assignRole.htm?id="+id;
+}

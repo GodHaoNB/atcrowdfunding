@@ -14,8 +14,6 @@
         from t_role
         where id = #{id,jdbcType=INTEGER}
     </select>
-
-
     <select id="findForPageRole" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -74,4 +72,24 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="findAllRole" resultMap="BaseResultMap">
+        select id,name from t_role
+    </select>
+    <select id="findAllByRoleId" resultType="com.gh.pojo.extendes.UserRoleVo">
+
+            select id,userid,roleid from t_user_role WHERE userid = 125
+    </select>
+    <delete id="deleteUserRoleRelationship">
+        delete from t_user_role where userid=#{userid} and roleid in
+        <foreach collection="roleids" item="roleid" open="(" close=")" separator=",">
+            #{roleid}
+        </foreach>
+    </delete>
+    <insert id="saveUserRoleRelationship">
+        insert into t_user_role (userid,roleid) values
+        <foreach collection="roleids" item="roleid" separator=",">
+             (#{userid},#{roleid})
+        </foreach>
+    </insert>
+
 </mapper>

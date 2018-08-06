@@ -55,10 +55,9 @@ function switctMagInfo(check) {
 
 function getRoot() {
     var hostname = location.hostname;
-    var pathname = location.pathname;
-    var contextPath = pathname.split("/")[1];
     var port = location.port;
     var protocol = location.protocol;
-    return protocol + "//" + hostname + ":" + port + "/" + contextPath;
+    return protocol + "//" + hostname + ":" + port;
+
 }
 var BASE_URL = getRoot();

@@ -10,6 +10,7 @@
 
     <!-- 启用注解功能 -->
     <context:annotation-config/>
+    <mvc:default-servlet-handler/>
     <import resource="springmvc-utils.xml" />
     <import resource="classpath*:spaingmav-messger.xml"/>
     <!--静态资源-->

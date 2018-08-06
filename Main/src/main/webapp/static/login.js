@@ -46,7 +46,7 @@ function btnLogin() {
             dataType: "json",
             /* contentType: 'application/json;charset=UTF-8',*/
             data: $loginForm.serializeArray(),
-            url: BASE_URL + "/login.do",
+            url: BASE_URL + "/classpather/login.do",
             //表单提交前执行
             beforeSend: function () {
                 if(loginacctBool&&userPwdBool){
@@ -63,9 +63,9 @@ function btnLogin() {
                 layer.close(loadingIndex);
                 /* console.log(data.serializeArray());*/
                 if (data != null) {
-                    window.location.href = BASE_URL+"/sgin.htm?method=main";
+                    window.location.href = BASE_URL+"/classpather/sgin.htm?method=main";
                 } else {
-                    window.location.href = BASE_URL+"/sgin.htm?method=login";
+                    window.location.href = BASE_URL+"/classpather/sgin.htm?method=login";
                 }
             }
             ,

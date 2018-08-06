@@ -2,7 +2,10 @@ package com.gh.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.gh.base.BaesColntroller;
+import com.gh.pojo.TRole;
+import com.gh.pojo.TUserRole;
 import com.gh.pojo.extendes.RoleVo;
+import com.gh.pojo.extendes.UserRoleVo;
 import com.gh.pojo.extendes.UserVo;
 import com.gh.service.RoleService;
 import com.gh.service.UserService;
@@ -20,7 +23,9 @@ import javax.management.relation.Role;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -41,6 +46,8 @@ public class UserController extends BaesColntroller {
             return "user";
         } else if (method.equals("role")) {
             return "role";
+        } else if (method.equals("add")) {
+            return "add";
         }
         return "";
     }
@@ -96,17 +103,17 @@ public class UserController extends BaesColntroller {
     @ResponseBody
     public Object AdminRole(@RequestParam(value = "page", defaultValue = "1") int page,
                             @RequestParam(value = "rows", defaultValue = "10") int rows,
-                            @RequestParam(value = "where", required = false, defaultValue ="") String where) throws SQLException {
+                            @RequestParam(value = "where", required = false, defaultValue = "") String where) throws SQLException {
 
         AjaxResult ajaxResult = new AjaxResult();
         PagingResult<RoleVo> roleVoPagingResult = null;
         try {
             RoleVo roleVo = new RoleVo();
-            if(where != null && !where.trim().equals(" ")){
+            if (where != null && !where.trim().equals(" ")) {
                 roleVo.setName(where);
             }
 
-            roleVoPagingResult = roleService.findForPageRole(page, rows,roleVo );
+            roleVoPagingResult = roleService.findForPageRole(page, rows, roleVo);
             if (roleVoPagingResult != null) {
                 ajaxResult.put(Const.DATA_SUCCESS, true);
                 ajaxResult.put(Const.DATA_QUWRY, roleVoPagingResult);
@@ -155,6 +162,22 @@ public class UserController extends BaesColntroller {
         return JSON.toJSONString(bool);
     }
 
+    @RequestMapping("/add.do")
+    @ResponseBody
+    public Object userAdd(UserVo user) throws SQLException {
+        logger.info(user.getLoginacct());
+        logger.info(user.toString());
+        logger.info(JSON.toJSONString(user));
+        user.setUserpswd(user.getLoginacct());
+        Integer integer = userService.saveUser(user);
+        boolean bool = false;
+        if (integer > 0) {
+            bool = true;
+        }
+        logger.info(JSON.toJSONString(integer));
+        return JSON.toJSONString(bool);
+    }
+
     @RequestMapping("/delete.do")
     @ResponseBody
     public Object deleteUser(@RequestParam("id") Integer id) throws SQLException {
@@ -173,9 +196,10 @@ public class UserController extends BaesColntroller {
         Integer integer = userService.deleteUserById(id);
         return JSON.toJSONString(integer);
     }
+
     @ResponseBody
     @RequestMapping("/deleterole.do")
-    public  Object deleteRole(Integer id) throws SQLException {
+    public Object deleteRole(Integer id) throws SQLException {
         Integer integer = roleService.deleteByPrimaryKey(id);
         boolean bool = false;
         if (integer > 0) {
@@ -183,11 +207,54 @@ public class UserController extends BaesColntroller {
         }
         return JSON.toJSONString(bool);
     }
+
     @RequestMapping("/deleteRolebsch.do")
     @ResponseBody
     public Object deleteRolebsch(Integer[] id) throws SQLException {
 
         Integer integer = roleService.deleteRoleByIds(id);
         return JSON.toJSONString(integer);
+    }
+
+    @RequestMapping("/assignRole.htm")
+    public String assignRole(Integer id, HttpServletRequest request) throws SQLException {
+        List<RoleVo> allListRole = roleService.findAllRole();
+        List<Integer> rloeids = roleService.findAllByRoleId(id);
+
+        List<RoleVo> leftRoleList = new ArrayList<>();//未分配角色
+        List<RoleVo> rightRoleList = new ArrayList<>();//已分配角色
+        allListRole.forEach(role -> {
+            //判断rloeids 里是否包含role.getId()
+            if (rloeids.contains(role.getId())) {
+                //  包含添加到 已分配角色 角色列表
+                rightRoleList.add(role);
+            } else {
+                //  不包含添加到 未分配角色 角色列表
+                leftRoleList.add(role);
+            }
+        });
+        request.setAttribute("leftRoleList", leftRoleList);
+        request.setAttribute("rightRoleList", rightRoleList);
+        request.setAttribute("userid", id);
+        return "assignRole";
+    }
+
+    @RequestMapping("/saveassignRlole.do")
+    @ResponseBody
+    public String saveUserRoleRelationship(Integer userid
+            ,  Data data) {
+
+        boolean success = roleService.saveUserRoleRelationship(userid, data);
+
+        return JSON.toJSONString(success);
+    }
+
+    @RequestMapping("/deleteassignRlole.do")
+    @ResponseBody
+    public String deleteUserRoleRelationship( Integer userid,Data data) {
+
+        boolean success = roleService.deleteUserRoleRelationship(userid, data);
+
+        return JSON.toJSONString(success);
     }
 }
