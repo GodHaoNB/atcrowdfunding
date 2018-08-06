@@ -1,4 +1,4 @@
-package com.gh.controller;
+package com.gh.controller.potal;
 
 import com.alibaba.fastjson.JSON;
 import com.gh.pojo.extendes.RoleVo;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-@RequestMapping
-@Controller("/role")
+@RequestMapping("/role")
+@Controller
 public class RoleController {
     @Autowired
     @Qualifier("userService")

@@ -1,13 +1,16 @@
 $(function () {
     $("#updateBtn").click(function () {
         var loadingIndex = -1;
+        console.log($("#roleid").val())
         $.ajax({
 
             url: BASE_URL +"/role/doEdit.do",
             type: "POST",
             data: {
-                name: $("#name").val(),
-                id: $("#roleid").val()
+                id: $("#roleid").val(),
+                name: $("#name").val()
+
+
             },
             beforeSend: function () {
                 loadingIndex = layer.msg('数据正在修改中', {icon: 6});

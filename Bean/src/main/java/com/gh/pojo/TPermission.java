@@ -1,6 +1,8 @@
 package com.gh.pojo;
 
-public class TPermission {
+import com.gh.pojo.base.BaseEntity;
+
+public class TPermission extends BaseEntity {
     private Integer id;
 
     private Integer pid;
