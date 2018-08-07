@@ -1,6 +1,8 @@
 package com.gh.pojo;
 
-public class TReturn {
+import com.gh.pojo.base.BaseEntity;
+
+public class TReturn extends BaseEntity {
     private Integer id;
 
     private Integer projectid;

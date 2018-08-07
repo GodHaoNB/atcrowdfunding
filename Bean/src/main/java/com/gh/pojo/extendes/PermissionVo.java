@@ -10,8 +10,13 @@ public class PermissionVo extends TPermission {
     @Setter
     @Getter
     private List<PermissionVo> children;
-    @Setter
-    @Getter
     private boolean open;
+    public void setOpen(boolean open) {
+       this.open = open;
+    }
+    public boolean getOpen() {
+        return this.open;
+    }
+
 
 }
